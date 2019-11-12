@@ -1,10 +1,62 @@
 PREFIX :       <http://example.org/>
 PREFIX schema: <http://schema.org/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
-:User {
-  schema:name          xsd:string  ;
-  schema:birthDate     xsd:date?  ;
-  schema:gender        [ schema:Male schema:Female ] OR xsd:string ;
-  schema:knows         IRI @:User*
+:TouristAttraction {
+ schema:name   [@de @en]{1,2};
+ schema:name   rdf:langString MaxLength 70 ;
 }
+:TouristAttractionLang {
+ schema:name   [@de @en]{1,2};
+}
+:TouristAttractionLangString {
+ schema:name   rdf:langString MaxLength 70 {2};
+}
+#Email constraint
+:TouristAttractionEmail {
+ schema:email   /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]{2,8}$/ ;
+}
+# Range constraints 
+:TouristAttractionRange {
+ schema:geo   @:Geo ;
+}
+
+# EXTRA a {} # Allows extra values of rdf:type
+#Geo should be of type: Thing and GeoCoordinates
+:Geo {
+a [ schema:Thing ] ;
+a [ schema:GeoCoordinates ]
+}
+
+#Numerical value constraints
+#maximumAttendeeCapacity
+:TouristAttractionMaxCapacity {
+ schema:maximumAttendeeCapacity  MinInclusive 1 MaxInclusive 40 
+}
+
+
+#price constraints of Offers
+
+PREFIX : <http://sti2.at/verification/>
+PREFIX schema: <http://schema.org/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+start = @<OfferShape>
+
+<OfferShape> {               
+  a [ schema:Thing schema:Offer schema:Intangible];
+  schema:priceSpecification @<PriceShape>         
+}
+
+<PriceShape> {                   
+ a [ schema:PriceSpecification schema:StructuredValue schema:Intangible] ;
+ schema:unitCode xsd:string;       
+ schema:maxPrice xsd:decimal MinInclusive 28 MaxInclusive 33 ;
+ schema:minPrice xsd:decimal MinInclusive 28 MaxInclusive 33 ;
+ schema:priceCurrency [ "EUR" ] 
+}
+

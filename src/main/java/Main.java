@@ -48,10 +48,14 @@ public class Main {
 		
 		// create the graph
 		Graph dataGraph = factory.asGraph(data);
-		
+
+		//focus node
+//		IRI focusNode = factory.createIRI("https://graph.mindlab.ai/tvb-mayrhofen/feratel/25f9649a-c37c-4dc9-a0b2-1a2fabcc3a84"); //to change with what you want 
+//		Label shapeLabel = new Label(factory.createIRI("http://example.org/TouristAttraction")); //to change with what you want 
+
 		// choose focus node and shapelabel
-		IRI focusNode = factory.createIRI("http://example.org/dave"); //to change with what you want 
-		Label shapeLabel = new Label(factory.createIRI("http://example.org/User")); //to change with what you want 
+		IRI focusNode = factory.createIRI("http://example.org/1655809"); //to change with what you want 
+		Label shapeLabel = new Label(factory.createIRI("http://example.org/TouristAttraction")); //to change with what you want 
 		
 		System.out.println();
 		System.out.println("Refine validation:");

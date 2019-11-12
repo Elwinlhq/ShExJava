@@ -1,0 +1,12 @@
+PREFIX :       <http://example.org/>
+PREFIX schema: <http://schema.org/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+#Property value constraints
+:TouristAttraction {
+  schema:name          [@en]  ;
+  schema:name          xsd:string MaxLength 70  ;
+  schema:url           xsd:string  ;
+  schema:telephone     /^([0-9\(\)\/\+ \-]*)$/ ;
+  schema:email         /^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]$/;
+}
