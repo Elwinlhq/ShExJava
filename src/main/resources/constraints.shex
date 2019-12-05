@@ -1,0 +1,77 @@
+PREFIX : <http://example.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX schema: <http://schema.org/>
+
+:NameShape {                     
+ a [ schema:CreativeWork schema:Event schema:Organization schema:Person schema:Place schema:Product ]+ ;
+ schema:name xsd:string+           
+}
+:DescrUrlShape {                     
+ a [ schema:CreativeWork schema:Event schema:Product ]+ ;
+ schema:description xsd:string+ ;         
+ schema:url xsd:string{1}          
+}
+:PlaceGeoShape {                 
+ schema:geo @:GeoShape ;         
+ schema:address @:AddressShape ; 
+ schema:openingHoursSpecification @:OHSShape  
+}
+:GeoShape {                 
+ a [ schema:GeoCoordinates ]{1} ;
+ schema:latitude xsd:string {1} ;        
+ schema:longitude xsd:string {1}          
+}
+:AddressShape {
+ a [ schema:PostalAddress ]* ;
+ schema:streetAddress xsd:string {1} ;
+ schema:addressLocality xsd:string {1} ;
+ schema:addressRegion xsd:string {1} ;
+ schema:addressCountry xsd:string {1} 
+}
+:OHSShape {
+ a [ schema:OpeningHoursSpecification ] ;
+ schema:opens xsd:string; ##%js:{ let open = o %};  # js future implementation
+ schema:closes xsd:string; ##%js:{ let open = o %};
+ schema:dayOfWeek [schema:Monday schema:Tuesday schema:Wednesday schema:Thursday schema:Friday schema:Saturday schema:Sunday]
+}
+:PriceShape {
+ a [ schema:PriceSpecification ] ;
+ schema:minPrice minInclusive 0 ;
+ schema:maxPrice minInclusive 0 ;
+ schema:price minInclusive 0;
+}
+:EventShape {
+ a [ schema:Event ] ;
+ schema:startDate xsd:datetime; ## %js:{ let startDate = o %}; # js future implementation
+ schema:endDate xsd:datetime; ## %js:{ let endDate = o %}; # %js:{ startDate < endDate %}
+ schema:eventStatus schema:EventStatusType AND [ schema:EventCancelled schema:EventPostponed schema:EventRescheduled schema:EventScheduled ]
+}
+:ContactPointShape {
+ a [ schema:ContactPoint ] ;
+ schema:contactType xsd:string AND [ "customer support" "technical support" "billing support" "bill payment" "sales" "reservations" "credit card support" "emergency" "baggage tracking" "roadside assistance" "package tracking" ]+ ;
+ schema:telephone .+ ;
+ schema:email .+ 
+}
+:OfferShape {
+ a [ schema:Offer ] ;
+ schema:availability schema:ItemAvailability AND [ schema:Discontinued schema:InStock schema:InStoreOnly schema:LimitedAvailability schema:OnlineOnly schema:OutOfStock schema:PreOrder schema:PreSale schema:SoldOut ]+ ;
+ schema:price minInclusive 0 ;
+ schema:priceCurrency .+ 
+}
+:ValidFromShape {
+    schema:validFrom .+ ; 
+    schema:validThrough .+ 
+}
+:AvailabilityStartsShape {
+    schema:availabilityStarts .+ ;
+    schema:availabilityEnds .+ 
+}
+:SingleHotelRoomShape  {
+    a [ schema:HotelRoom ] ;
+    schema:bed @:NOfBeds ;
+    schema:typeOfBed [ schema:SingleBed ] ;
+    schema:occupancy MinInclusive 1 MaxInclusive 1
+}
+:NOfBeds {
+  schema:numberOfBeds MinInclusive 1 MaxInclusive 1
+}
